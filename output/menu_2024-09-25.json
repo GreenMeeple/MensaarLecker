@@ -1,0 +1,32 @@
+{
+  "date": "Mittwoch, 25. September 2024",
+  "meals": {
+    "Menü 1": [
+      {
+        "meal": "Portugiesische Reispfanne mit Kräuterdip (Ohne Dip Vegan)",
+        "components": {
+          "Bunt gemischter Blattsalat": true,
+          "Obst (Apfel aus biologischem Anbau)": true,
+          "Klare Salatsoße": true,
+          "Weiße Salatsoße Dressing": true
+        }
+      }
+    ],
+    "Menü 2": [
+      {
+        "meal": "Köttbullar und Rahmsoße mit Champignons",
+        "components": {
+          "Reis (aus biologischem Anbau)": true,
+          "Karottensalat mit Erbsen": true,
+          "Obst": true
+        }
+      }
+    ],
+    "Mensacafé": [
+      {
+        "meal": "KlimaTeller: Türkische Pizza Lahmacun",
+        "components": {}
+      }
+    ]
+  }
+}

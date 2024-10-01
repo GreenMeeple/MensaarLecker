@@ -1,0 +1,41 @@
+{
+  "date": "Freitag, 27. September 2024",
+  "meals": {
+    "Menü 1": [
+      {
+        "meal": "KlimaTeller: Hausgemachte vegetarische Kartoffelsuppe",
+        "components": {
+          "Brötchen": true,
+          "Bunt gemischter Blattsalat": true,
+          "Weiße Salatsoße Dressing": true,
+          "Klare Salatsoße": true,
+          "Obst (Apfel aus biologischem Anbau)": true
+        }
+      }
+    ],
+    "Menü 2": [
+      {
+        "meal": "KlimaTeller: Gebackenes Seelachsfilet mit Remouladensoße",
+        "components": {
+          "Petersilienkartoffel (aus biologischem Anbau)": true,
+          "Karottensalat": true,
+          "Schokoladenpudding": true
+        }
+      }
+    ],
+    "Mensacafé": [
+      {
+        "meal": "Pasta mit Argentinischer Hackfleischsoße",
+        "components": {
+          "Geriebener Käse": true
+        }
+      },
+      {
+        "meal": "Pasta mit Tomatensoße",
+        "components": {
+          "Geriebener Käse": true
+        }
+      }
+    ]
+  }
+}

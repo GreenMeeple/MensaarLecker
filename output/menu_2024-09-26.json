@@ -1,0 +1,37 @@
+{
+  "date": "Donnerstag, 26. September 2024",
+  "meals": {
+    "Menü 1": [
+      {
+        "meal": "KlimaTeller: Broccoli und Cheese Nuggets mit Chili-Kräuterdip",
+        "components": {
+          "Pommes Frites": true,
+          "Karottensalat": true,
+          "Bananenquark": true
+        }
+      }
+    ],
+    "Menü 2": [
+      {
+        "meal": "Hähnchenschnitzel „Wiener Art“ mit Paprikarahmsoße",
+        "components": {
+          "Reis (aus biologischem Anbau)": true,
+          "Bunt gemischter Blattsalat": true,
+          "Klare Salatsoße": true,
+          "Weiße Salatsoße Dressing": true,
+          "Obst (Apfel aus biologischem Anbau)": true
+        }
+      }
+    ],
+    "Mensacafé": [
+      {
+        "meal": "Flammkuchen „Mexikanische Art“",
+        "components": {}
+      },
+      {
+        "meal": "Flammkuchen mit Tomaten und Rucola",
+        "components": {}
+      }
+    ]
+  }
+}

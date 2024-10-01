@@ -1,0 +1,31 @@
+{
+  "date": "Dienstag, 1. Oktober 2024",
+  "meals": {
+    "Menü 1": [
+      {
+        "meal": "Gemüsespätzle",
+        "components": {
+          "Gurken-Bohnen-Tomatensalat": true,
+          "Pfirsich-Joghurtcreme": true
+        }
+      }
+    ],
+    "Menü 2": [
+      {
+        "meal": "Thai Gemüsecurry mit Basmatireis (aus biologischem Anbau)",
+        "components": {
+          "Bunt gemischter Blattsalat": true,
+          "Weiße Salatsoße Dressing": true,
+          "Klare Salatsoße": true,
+          "Obst (Apfel aus biologischem Anbau)": true
+        }
+      }
+    ],
+    "Mensacafé": [
+      {
+        "meal": "Pizza mit frischen Champignons und Gorgonzola",
+        "components": {}
+      }
+    ]
+  }
+}
