@@ -3,7 +3,7 @@ name: Scrape Mensaar Daily
 on:
   schedule:
   # this is UTC not current timezone!!!!!
-    - cron: '0 13 * * 1-5'  # Runs at 2 PM UTC, Monday to Friday
+    - cron: '30 13 * * 1-5'  # Runs at 2 PM UTC, Monday to Friday
 
 jobs:
   scrape:
