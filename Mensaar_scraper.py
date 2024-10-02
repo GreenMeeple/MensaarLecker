@@ -47,7 +47,7 @@ def scrape_mensaar():
         print(f"Menu date: {menu_date}")
         
         # Load existing meal and component counts
-        output_dir = Path("output")
+        output_dir = Path(__file__).parent / "output"
         output_dir.mkdir(exist_ok=True)
         count_file = output_dir / "meal_component_counts.json"
         existing_counts = load_existing_counts(count_file)

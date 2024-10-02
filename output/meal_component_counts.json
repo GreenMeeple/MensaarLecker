@@ -17,25 +17,33 @@
     "KlimaTeller: Bami Goreng mit Nudeln": 1,
     "Gemüsespätzle": 1,
     "Thai Gemüsecurry mit Basmatireis (aus biologischem Anbau)": 1,
-    "Pizza mit frischen Champignons und Gorgonzola": 1
+    "Pizza mit frischen Champignons und Gorgonzola": 1,
+    "KlimaTeller: Tomatenmakkaroni mit geriebenem Käse": 1,
+    "Cevapcici mit scharfer Gemüsesoße": 1,
+    "Tomatensuppe": 1,
+    "KlimaTeller: Tomatensuppe": 1
   },
   "component_counts": {
     "Pommes Frites": 1,
     "Karottensalat": 2,
     "Bananenquark": 1,
     "Reis (aus biologischem Anbau)": 2,
-    "Bunt gemischter Blattsalat": 5,
-    "Klare Salatsoße": 5,
-    "Weiße Salatsoße Dressing": 5,
-    "Obst (Apfel aus biologischem Anbau)": 5,
+    "Bunt gemischter Blattsalat": 6,
+    "Klare Salatsoße": 6,
+    "Weiße Salatsoße Dressing": 6,
+    "Obst (Apfel aus biologischem Anbau)": 6,
     "Karottensalat mit Erbsen": 1,
     "Obst": 1,
-    "Brötchen": 2,
+    "Brötchen": 4,
     "Petersilienkartoffel (aus biologischem Anbau)": 1,
     "Schokoladenpudding": 1,
     "Geriebener Käse": 2,
     "Himbeer-Vanillejoghurt": 1,
     "Gurken-Bohnen-Tomatensalat": 1,
-    "Pfirsich-Joghurtcreme": 1
+    "Pfirsich-Joghurtcreme": 1,
+    "Reis": 1,
+    "Salat Esterhazy": 1,
+    "Sahnepudding": 1,
+    "Wiener Würstchen": 1
   }
 }
