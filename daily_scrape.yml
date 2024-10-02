@@ -3,7 +3,7 @@ name: Scrape Mensaar Daily
 on:
   schedule:
   # this is UTC not current timezone!!!!!
-    - cron: '30 12 * * 1-5'  # Runs at 2 PM UTC, Monday to Friday
+    - cron: '0 13 * * 1-5'  # Runs at 2 PM UTC, Monday to Friday
 
 jobs:
   scrape:
@@ -25,17 +25,17 @@ jobs:
 
     - name: Run scraping script
       run: |
-        python your_script.py  # Replace with the actual path to your script
+        python Mensaar_scraper.py  
 
     # Save meal_component_counts.json and the dynamic menu_<date>.json
-    - name: Upload meal component counts as artifact
+    - name: Upload meal component counts
       uses: actions/upload-artifact@v3
       with:
         name: meal_component_counts
         path: output/meal_component_counts.json
 
-    - name: Upload today's menu as artifact
+    - name: Upload today's menu
       uses: actions/upload-artifact@v3
       with:
         name: menu_json
-        path: output/menu_*.json  # Use wildcard to handle the dynamic filename
+        path: output/menu_*.json 
