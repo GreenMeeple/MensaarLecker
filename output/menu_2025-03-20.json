@@ -1,0 +1,36 @@
+{
+  "date": "Donnerstag, 20. März 2025",
+  "meals": {
+    "Menü 1": [
+      {
+        "meal": "Reisgericht mit Pilzen",
+        "components": {
+          "Chili-Kräuterdip": true,
+          "Karottensalat": true,
+          "Obst": true
+        }
+      }
+    ],
+    "Menü 2": [
+      {
+        "meal": "Hähnchenschnitzel Wiener Art",
+        "components": {
+          "Paprikarahmsoße": true,
+          "Reis (aus biologischem Anbau)": true,
+          "Karottensalat": true,
+          "Obst (Apfel aus biologischem Anbau)": true
+        }
+      }
+    ],
+    "Mensacafé": [
+      {
+        "meal": "10. Saarländische Hülsenfrüchtewochen",
+        "components": {
+          "Veganes Kartoffel-Linsen Gratin": true,
+          "Bunt gemischter Blattsalat": true,
+          "Balsamico-Dressing": true
+        }
+      }
+    ]
+  }
+}

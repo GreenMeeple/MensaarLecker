@@ -21,19 +21,22 @@
     "KlimaTeller: Tomatenmakkaroni mit geriebenem Käse": 1,
     "Cevapcici mit scharfer Gemüsesoße": 1,
     "Tomatensuppe": 1,
-    "KlimaTeller: Tomatensuppe": 1
+    "KlimaTeller: Tomatensuppe": 1,
+    "Reisgericht mit Pilzen": 1,
+    "Hähnchenschnitzel Wiener Art": 1,
+    "10. Saarländische Hülsenfrüchtewochen": 1
   },
   "component_counts": {
     "Pommes Frites": 1,
-    "Karottensalat": 2,
+    "Karottensalat": 4,
     "Bananenquark": 1,
-    "Reis (aus biologischem Anbau)": 2,
-    "Bunt gemischter Blattsalat": 6,
+    "Reis (aus biologischem Anbau)": 3,
+    "Bunt gemischter Blattsalat": 7,
     "Klare Salatsoße": 6,
     "Weiße Salatsoße Dressing": 6,
-    "Obst (Apfel aus biologischem Anbau)": 6,
+    "Obst (Apfel aus biologischem Anbau)": 7,
     "Karottensalat mit Erbsen": 1,
-    "Obst": 1,
+    "Obst": 2,
     "Brötchen": 4,
     "Petersilienkartoffel (aus biologischem Anbau)": 1,
     "Schokoladenpudding": 1,
@@ -44,6 +47,10 @@
     "Reis": 1,
     "Salat Esterhazy": 1,
     "Sahnepudding": 1,
-    "Wiener Würstchen": 1
+    "Wiener Würstchen": 1,
+    "Chili-Kräuterdip": 1,
+    "Paprikarahmsoße": 1,
+    "Veganes Kartoffel-Linsen Gratin": 1,
+    "Balsamico-Dressing": 1
   }
 }

@@ -5,18 +5,22 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import pytz
 import json
-from pathlib import Path
-from collections import defaultdict
 
-def load_existing_counts(count_file):
-    """Load existing counts from the JSON file, if it exists."""
-    if count_file.exists():
-        with open(count_file, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return {"meal_counts": {}, "component_counts": {}}
+# Google Sheets Setup
+SHEET_NAME = "Mensa_Menu"  # Change this to your sheet name
+CREDENTIALS_FILE = "credentials.json"  # Ensure you have this file in the same directory
+
+def authenticate_google_sheets():
+    """Authenticate and connect to Google Sheets API."""
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE, scope)
+    client = gspread.authorize(creds)
+    return client
 
 def scrape_mensaar():
     url = "https://mensaar.de/#/menu/sb"
@@ -29,95 +33,70 @@ def scrape_mensaar():
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
         
-        # Set up the Chrome driver using webdriver_manager
+        # Set up the Chrome driver
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
         
         driver.get(url)
         print("Page loaded. Waiting for content...")
-        
+
         # Wait for the page to load completely
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "counter"))
         )
-        
+
         # Extract date
         date_element = driver.find_element(By.CSS_SELECTOR, ".cursor-pointer.active.list-group-item")
         menu_date = date_element.text.strip()
         print(f"Menu date: {menu_date}")
-        
-        # Load existing meal and component counts
-        output_dir = Path(__file__).parent / "output"
-        output_dir.mkdir(exist_ok=True)
-        count_file = output_dir / "meal_component_counts.json"
-        existing_counts = load_existing_counts(count_file)
-        
+
         # Extract meals by counter titles
-        meals = defaultdict(lambda: {"meals": []})
-        meal_count = existing_counts["meal_counts"]  # Start from existing counts
-        component_count = existing_counts["component_counts"]  # Start from existing counts
+        meal_data = []
 
         counters = driver.find_elements(By.CLASS_NAME, "counter")
-        
+
         for counter in counters:
             counter_title = counter.find_element(By.CLASS_NAME, "counter-title").text.strip()
+            
             # Filter for specified counter titles
             if counter_title in ["Menü 1", "Menü 2", "Mensacafé"]:
                 meal_elements = counter.find_elements(By.CLASS_NAME, "meal")
                 
                 for meal in meal_elements:
                     meal_title = meal.find_element(By.CLASS_NAME, "meal-title").text.strip()
-                    
+
                     # Gather components for each meal
                     component_elements = meal.find_elements(By.CLASS_NAME, "component")
-                    components = {}
-                    for component in component_elements:
-                        component_text = component.find_element(By.CLASS_NAME, "component-name").text.strip()
-                        components[component_text] = True  # Indicate presence
-                        component_count[component_text] = component_count.get(component_text, 0) + 1  # Increment count
+                    components = [component.find_element(By.CLASS_NAME, "component-name").text.strip()
+                                  for component in component_elements]
 
-                    # Count occurrences of each meal
-                    meal_count[meal_title] = meal_count.get(meal_title, 0) + 1  # Increment count
+                    # Append meal details
+                    meal_data.append([menu_date, counter_title, meal_title, ", ".join(components)])
 
-                    # Append meal title and components to the corresponding counter
-                    meals[counter_title]["meals"].append({
-                        "meal": meal_title,
-                        "components": components
-                    })
-
-        # Create a dictionary to store the results
-        result = {
-            "date": menu_date,
-            "meals": {counter: data["meals"] for counter, data in meals.items()}
-        }
-
-        # Save the results to a JSON file
-        output_file = output_dir / f"menu_{datetime.now(pytz.timezone('Europe/Berlin')).date()}.json"
-
-        with open(output_file, "w", encoding="utf-8") as f:
-            json.dump(result, f, ensure_ascii=False, indent=2)
-
-        print(f"Results saved to {output_file}")
-
-        # Save the updated occurrence counts to the JSON file
-        count_result = {
-            "meal_counts": dict(meal_count),
-            "component_counts": dict(component_count)
-        }
-
-        with open(count_file, "w", encoding="utf-8") as f:
-            json.dump(count_result, f, ensure_ascii=False, indent=2)
-
-        print(f"Counts saved to {count_file}")
+        # Save to Google Sheets
+        save_to_google_sheets(meal_data)
 
     except Exception as e:
         print(f"Error scraping menu: {e}")
-        import traceback
-        traceback.print_exc()
     
     finally:
         if driver:
             driver.quit()
+
+def save_to_google_sheets(meal_data):
+    """Save meal data to Google Sheets."""
+    client = authenticate_google_sheets()
+    sheet = client.open(SHEET_NAME).sheet1  # Open first sheet
+
+    # Add column headers if the sheet is empty
+    if not sheet.get_all_values():
+        sheet.append_row(["Date", "Counter", "Meal", "Components"])
+
+    # Append new data
+    for row in meal_data:
+        sheet.append_row(row)
+
+    print(f"Data saved to Google Sheets: {SHEET_NAME}")
 
 if __name__ == "__main__":
     scrape_mensaar()
