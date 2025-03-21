@@ -8,29 +8,40 @@ MensaarLecker aims to collect all the data from Menu 1, 2, and Mensacafe to trac
 
 ## 🥗 Description
 
-A fully automated scraper and menu site for the Saarbrücken Mensa, powered by Python, Selenium, Google Sheets, and GitHub Actions.
+A fully automated scraper and static website for the Saarbrücken Mensa, powered by Python, Selenium, Google Sheets, and GitHub Actions.
 
-> Get a daily-updated overview of meals from https://mensaar.de, formatted and presented cleanly in your browser.
-
----
-
-## 📅 Features
-
-- ✅ Scrapes the Mensa SB daily menu
-- ✅ Publishes data to a connected Google Sheet
-- ✅ Generates beautiful, static HTML pages:
-  - **Main page** showing today's meals
-  - **Full menu** with search, filter & component frequencies
-- ✅ GitHub Actions auto-refresh daily at **10:00 AM (CET/CEST weekdays)**
-- ✅ Fully open-source & self-hostable
+> Get a clean and daily-updated overview of meals from [mensaar.de](https://mensaar.de), with searchable history, meal components, and frequency stats.
 
 ---
 
 ## 🌐 Live Demo
 
-> 🖥 [Visit the Menu Website](https://greenmeeple.github.io/MensaarLecker/index.html)
+👉 [View Website](https://your-username.github.io/MensaarLecker)  
+👉 [View Data in Google Sheets](https://docs.google.com/spreadsheets/d/your-sheet-id-here)
 
-_Replace with your GitHub Pages link after setup._
+---
+
+## 📅 Features
+
+- ✅ Scrapes the Saarbrücken Mensa daily menu
+- ✅ Publishes structured data to a connected Google Sheet
+- ✅ Generates static HTML pages:
+  - **`index.html`** – Today’s menu with meal frequency counts
+  - **`menu.html`** – Full searchable menu with DataTables
+- ✅ Automatically updates via GitHub Actions at **10:00 AM UTC on weekdays**
+- ✅ Beautiful card-style layout & component display
+- ✅ No server required — 100% static
+
+---
+
+## 🧠 Meal Frequency Display Example
+
+The homepage shows how often each meal has been served based on historical data since 2025.03.20:
+
+**🍽️ Pasta mit Tomatensoße**
+*📊 Seen since 2025.03.20*
+✅ Geriebener Käse
+✅ Rucola
 
 ---
 
@@ -38,12 +49,14 @@ _Replace with your GitHub Pages link after setup._
 
 ```bash
 .
-├── generate_menu.py         # Generates index.html and menu.html from Google Sheet
-├── Mensaar_scraper.py       # Scrapes data and writes to Google Sheet
-├── credentials.json         # Google service account key (not committed)
-├── index.html               # Main website page (today's menu)
-├── menu.html                # Full searchable menu page
+├── Mensaar_scraper.py         # Scrapes from mensaar.de and writes to Google Sheet
+├── generate_menu.py           # Reads the sheet and generates index.html and menu.html
+├── credentials.json           # Google service account key (excluded from repo)
+├── index.html                 # Main website page with today's menu
+├── menu.html                  # Full searchable table of meals
 ├── .github/workflows/
-│   └── update_menu.yml      # GitHub Action to auto-update daily
+│   └── update_menu.yml        # GitHub Actions automation
+├── src/
+│   └── uds_spirit.jpg         # Soul of this project
 └── README.md
 
