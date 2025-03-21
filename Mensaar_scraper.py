@@ -52,15 +52,22 @@ def scrape_mensaar():
         print("✅ Page loaded. Waiting for content...")
 
         # Wait until the list of counters is fully loaded
-        WebDriverWait(driver, 30).until(
-            EC.presence_of_all_elements_located((By.CLASS_NAME, "counter"))
-        )
+        try:
+            WebDriverWait(driver, 20).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "counter"))
+            )
+            print("✅ Menu loaded!")
+        except:
+            print("❌ Menu failed to load (no .counter found)")
 
-
-        # Extract date
-        date_element = driver.find_element(By.CSS_SELECTOR, ".cursor-pointer.active.list-group-item")
-        menu_date = format_date(date_element.text.strip())  # Convert to YYYY-MM-DD format
-        print(f"📅 Menu date: {menu_date}")
+        try:
+            date_element = driver.find_element(By.CSS_SELECTOR, ".cursor-pointer.active.list-group-item")
+            menu_date_raw = date_element.text.strip()
+            menu_date = format_date(menu_date_raw)
+            print(f"📅 Raw Date: {menu_date_raw} → Parsed: {menu_date}")
+        except Exception as e:
+            print(f"❌ Failed to extract date: {e}")
+            menu_date = "0000-00-00"
 
         # Extract meals by counter titles
         meal_data = []

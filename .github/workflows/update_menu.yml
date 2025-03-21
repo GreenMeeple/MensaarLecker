@@ -28,13 +28,18 @@ jobs:
         run: echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" > credentials.json
 
       - name: 🚀 Run Mensaar Scraper (update Google Sheets)
-        run: python Mensaar_scraper.py
+        run: |
+          echo "🧪 Starting Mensaar_scraper..."
+          python Mensaar_scraper.py
+          echo "✅ Scraper completed."
 
       - name: ⏳ Wait for Google Sheets update
         run: sleep 30
 
       - name: 🖼️ Run HTML Generator
-        run: python generate_menu.py
+        run: |
+          echo "🧪 Generating index.html & menu.html"
+          python generate_menu.py
 
       - name: 🧪 List current files
         run: ls -la
