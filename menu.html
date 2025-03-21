@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Mensaar Menu</title>
+    
+    <!-- DataTables CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; text-align: center; background-image: url('src/uds_spirit.jpg'); }
+        h1 {
+            background: rgba(255, 255, 255, 0.8); 
+            color: color: #003C71;
+            padding: 10px 20px;
+            display: inline-block; 
+            border-radius: 10px; 
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); 
+        }
+        table { width: 90%; margin: 20px auto; border-collapse: collapse; }
+        th, td { padding: 10px; text-align: left; }
+        th { background-color: #003C71; color: white; }
+        .button { padding: 10px 15px; background: #007bff; color: white; border-radius: 5px; text-decoration: none; }
+        .button:hover { background: #0056b3; }
+        /* Fix visibility of DataTables UI */
+
+
+        /* Change dropdown & search box background */
+        .dataTables_length, 
+        .dataTables_filter, 
+        .dataTables_info, 
+        .dataTables_paginate {
+            background: rgba(255, 255, 255, 0.8); /* Light background */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Style dropdown and search input */
+        .dataTables_length select,
+        .dataTables_filter input {
+            background: white;
+            color: black;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Improve button visibility */
+        .dataTables_paginate .paginate_button {
+            color: white !important;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+        .dataTables_paginate .paginate_button:hover {
+            background: #0056b3 !important; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Full Mensaar Menu</h1></br>
+    <a href="index.html" class="button">🏠 Back to Home</a>
+    
+    <table id="menuTable" class="display">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Counter</th>
+                <th>Meal</th>
+                <th>Component 1</th>
+                <th>Component 2</th>
+                <th>Component 3</th>
+                <th>Component 4</th>
+                <th>Component 5</th>
+            </tr>
+        </thead>
+        <tbody>
+    
+        <tr>
+            <td>2024-09-24</td>
+            <td>Menü 1</td>
+            <td>Portugiesische Reispfanne mit Kräuterdip (Ohne Dip Vegan)</td>
+            <td>Bunt gemischter Blattsalat</td>
+            <td>Obst (Apfel aus biologischem Anbau)</td>
+            <td>Klare Salatsoße</td>
+            <td>Weiße Salatsoße Dressing</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-24</td>
+            <td>Menü 2</td>
+            <td>Köttbullar und Rahmsoße mit Champignons</td>
+            <td>Reis (aus biologischem Anbau)</td>
+            <td>Karottensalat mit Erbsen</td>
+            <td>Obst</td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-24</td>
+            <td>Mensacafé</td>
+            <td>KlimaTeller: Türkische Pizza Lahmacun</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-25</td>
+            <td>Menü 1</td>
+            <td>KlimaTeller: Broccoli und Cheese Nuggets mit Chili-Kräuterdip</td>
+            <td>Pommes Frites</td>
+            <td>Karottensalat</td>
+            <td>Bananenquark</td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-25</td>
+            <td>Menü 2</td>
+            <td>Hähnchenschnitzel „Wiener Art“ mit Paprikarahmsoße</td>
+            <td>Reis (aus biologischem Anbau)</td>
+            <td>Bunt gemischter Blattsalat</td>
+            <td>Klare Salatsoße</td>
+            <td>Weiße Salatsoße Dressing</td>
+            <td>Obst (Apfel aus biologischem Anbau)</td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-25</td>
+            <td>Mensacafé</td>
+            <td>Flammkuchen „Mexikanische Art“</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-25</td>
+            <td>Mensacafé</td>
+            <td>Flammkuchen mit Tomaten und Rucola</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-26</td>
+            <td>Menü 1</td>
+            <td>KlimaTeller: Hausgemachte vegetarische Kartoffelsuppe</td>
+            <td>Brötchen</td>
+            <td>Bunt gemischter Blattsalat</td>
+            <td>Weiße Salatsoße Dressing</td>
+            <td>Klare Salatsoße</td>
+            <td>Obst (Apfel aus biologischem Anbau)</td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-26</td>
+            <td>Menü 2</td>
+            <td>KlimaTeller: Gebackenes Seelachsfilet mit Remouladensoße</td>
+            <td>Petersilienkartoffel (aus biologischem Anbau)</td>
+            <td>Karottensalat</td>
+            <td>Schokoladenpudding</td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-26</td>
+            <td>Mensacafé</td>
+            <td>Pasta mit Argentinischer Hackfleischsoße</td>
+            <td>Geriebener Käse</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-26</td>
+            <td>Mensacafé</td>
+            <td>Pasta mit Tomatensoße</td>
+            <td>Geriebener Käse</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-29</td>
+            <td>Menü 1</td>
+            <td>KlimaTeller: Grüne Bohnensuppe</td>
+            <td>Brötchen</td>
+            <td>Bunt gemischter Blattsalat</td>
+            <td>Klare Salatsoße</td>
+            <td>Weiße Salatsoße Dressing</td>
+            <td>Obst (Apfel aus biologischem Anbau)</td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-29</td>
+            <td>Menü 2</td>
+            <td>Fleischkäsenudeln mit Vitaminsalat</td>
+            <td>Himbeer-Vanillejoghurt</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-29</td>
+            <td>Mensacafé</td>
+            <td>Bami Goreng mit Nudeln</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-29</td>
+            <td>Mensacafé</td>
+            <td>KlimaTeller: Bami Goreng mit Nudeln</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-30</td>
+            <td>Menü 1</td>
+            <td>Gemüsespätzle</td>
+            <td>Gurken-Bohnen-Tomatensalat</td>
+            <td>Pfirsich-Joghurtcreme</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-30</td>
+            <td>Menü 2</td>
+            <td>Thai Gemüsecurry mit Basmatireis (aus biologischem Anbau)</td>
+            <td>Bunt gemischter Blattsalat</td>
+            <td>Weiße Salatsoße Dressing</td>
+            <td>Klare Salatsoße</td>
+            <td>Obst (Apfel aus biologischem Anbau)</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-09-30</td>
+            <td>Mensacafé</td>
+            <td>Pizza mit frischen Champignons und Gorgonzola</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-10-01</td>
+            <td>Menü 1</td>
+            <td>KlimaTeller: Tomatenmakkaroni mit geriebenem Käse</td>
+            <td>Bunt gemischter Blattsalat</td>
+            <td>Klare Salatsoße</td>
+            <td>Weiße Salatsoße Dressing</td>
+            <td>Obst (Apfel aus biologischem Anbau)</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-10-01</td>
+            <td>Menü 2</td>
+            <td>Cevapcici mit scharfer Gemüsesoße</td>
+            <td>Reis</td>
+            <td>Salat Esterhazy</td>
+            <td>Sahnepudding</td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-10-01</td>
+            <td>Mensacafé</td>
+            <td>Tomatensuppe</td>
+            <td>Wiener Würstchen</td>
+            <td>Brötchen</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2024-10-01</td>
+            <td>Mensacafé</td>
+            <td>KlimaTeller: Tomatensuppe</td>
+            <td>Brötchen</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2025-03-19</td>
+            <td>Menü 1</td>
+            <td>Reisgericht mit Pilzen</td>
+            <td>Chili-Kräuterdip</td>
+            <td>Karottensalat</td>
+            <td>Obst</td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2025-03-19</td>
+            <td>Menü 2</td>
+            <td>Hähnchenschnitzel Wiener Art</td>
+            <td>Paprikarahmsoße</td>
+            <td>Reis (aus biologischem Anbau)</td>
+            <td>Karottensalat</td>
+            <td>Obst (Apfel aus biologischem Anbau)</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2025-03-19</td>
+            <td>Mensacafé</td>
+            <td>10. Saarländische Hülsenfrüchtewochen</td>
+            <td>Veganes Kartoffel-Linsen Gratin</td>
+            <td>Bunt gemischter Blattsalat</td>
+            <td>Balsamico-Dressing</td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2025-03-21</td>
+            <td>Menü 1</td>
+            <td>Grünkernbolognaise</td>
+            <td>Penne Rigate (aus biologischem Anbau)</td>
+            <td>Geriebener Käse</td>
+            <td>Bunt gemischter Blattsalat</td>
+            <td>Weiße Salatsoße Dressing</td>
+            <td>Klare Salatsoße</td>
+        </tr>
+        
+        <tr>
+            <td>2025-03-21</td>
+            <td>Menü 2</td>
+            <td>Gebackenes Seelachsfilet</td>
+            <td>Remouladensoße</td>
+            <td>Petersilienkartoffel (aus biologischem Anbau)</td>
+            <td>Schlemmersalat</td>
+            <td>Schokoladenpudding</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2025-03-21</td>
+            <td>Mensacafé</td>
+            <td>Kartoffel-Möhren-Kichererbsen-Eintopf</td>
+            <td>Wiener Würstchen</td>
+            <td>Brötchen</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2025-03-21</td>
+            <td>Mensacafé</td>
+            <td>Kartoffel-Möhren-Kichererbsen-Eintopf</td>
+            <td>Brötchen</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $('#menuTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "order": [[0, "asc"]],
+            });
+        });
+    </script>
+</body>
+</html>
+    
