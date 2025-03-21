@@ -16,8 +16,8 @@ A fully automated scraper and static website for the Saarbrücken Mensa, powered
 
 ## 🌐 Live Demo
 
-👉 [View Website](https://your-username.github.io/MensaarLecker)  
-👉 [View Data in Google Sheets](https://docs.google.com/spreadsheets/d/your-sheet-id-here)
+👉 [View Website](https://greenmeeple.github.io/MensaarLecker/index.html)  
+👉 [View Data in Google Sheets](https://docs.google.com/spreadsheets/d/1PW9Va2sC-uQPN5cj3tvlMqEq4evIeTRBKq_X2ooKFQ0/edit?usp=sharing)
 
 ![](./src/menu.png)
 

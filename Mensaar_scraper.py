@@ -8,7 +8,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import re
-import datetime
 import time
 import json
 

@@ -199,7 +199,7 @@ def generate_menu_html(menu_data):
                 "ordering": true,
                 "info": true,
                 "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                "order": [[0, "asc"]],
+                "order": [[0, "desc"]],
             });
         });
     </script>
