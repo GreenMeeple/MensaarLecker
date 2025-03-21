@@ -24,8 +24,11 @@ jobs:
         run: |
           pip install requests selenium webdriver-manager gspread oauth2client
 
-      - name: 🗝️ Write credentials.json for Google Sheets
-        run: echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" > credentials.json
+      - name: 🔐 Decode credentials.json
+        run: |
+            echo "$GOOGLE_CREDENTIALS_JSON" | base64 -d > credentials.json
+        env:
+            GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
 
       - name: 🚀 Run Mensaar Scraper (update Google Sheets)
         run: |
