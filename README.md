@@ -19,6 +19,8 @@ A fully automated scraper and static website for the Saarbrücken Mensa, powered
 👉 [View Website](https://your-username.github.io/MensaarLecker)  
 👉 [View Data in Google Sheets](https://docs.google.com/spreadsheets/d/your-sheet-id-here)
 
+![](./src/menu.png)
+
 ---
 
 ## 📅 Features
@@ -39,9 +41,14 @@ A fully automated scraper and static website for the Saarbrücken Mensa, powered
 The homepage shows how often each meal has been served based on historical data since 2025.03.20:
 
 **🍽️ Pasta mit Tomatensoße**
+
 *📊 Seen since 2025.03.20*
+
 ✅ Geriebener Käse
+
 ✅ Rucola
+
+![](./src/main.png)
 
 ---
 
