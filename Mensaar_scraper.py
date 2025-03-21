@@ -51,10 +51,11 @@ def scrape_mensaar():
         driver.get(url)
         print("✅ Page loaded. Waiting for content...")
 
-        # Wait for the page to load completely
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "counter"))
+        # Wait until the list of counters is fully loaded
+        WebDriverWait(driver, 30).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME, "counter"))
         )
+
 
         # Extract date
         date_element = driver.find_element(By.CSS_SELECTOR, ".cursor-pointer.active.list-group-item")
