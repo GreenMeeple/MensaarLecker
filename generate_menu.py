@@ -1,5 +1,6 @@
 import requests
 import datetime
+from collections import Counter
 
 # Google Apps Script URL
 SCRIPT_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLi1GfO-Gv8mOZT2yAZiuObuFah4SfO3yL-8v5ttyczhLNjc54QwEXxrUUA-tG3Hm9OD71kja_nmNqmmnqTuFQhR_JsVFTeOVlQ_i_Go_JT20OFIj9JNSUwOZKeqHNwAXEA6aB6UqmrSNaqpqUtdizlU8memnIBISS8Fs3rtzBIuioM6JYUJfiha44O5SX0u0UCXR_HMzXJVR9_DjTFy-cn_XOhxK8_J1jJ2N1pfvnIOvUeSFtXeyCpCQDVQYMb0jABlV8YJQPc1hYF3fcYGoUCBNWKu8g&lib=MjLlBRtX5qgaM2u21xtweVb8p07uDipDZ";
@@ -17,10 +18,13 @@ def fetch_menu():
 # Generate today's menu (index.html)
 def generate_index_html(menu_data):
     today = datetime.date.today().isoformat()
-    weekday = datetime.datetime.today().strftime("%A")  # Get day name
+    weekday = datetime.datetime.today().strftime("%A")
     is_weekend = weekday in ["Saturday", "Sunday"]
 
-    # HTML Template
+    # Calculate meal frequencies across all days
+    meal_names = [meal["Meal"] for meal in menu_data]
+    meal_frequencies = Counter(meal_names)
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +35,7 @@ def generate_index_html(menu_data):
         body {{ font-family: Arial, sans-serif; padding: 20px; text-align: center; background-image: url('src/uds_spirit.jpg'); }}
         h1 {{
             background: rgba(255, 255, 255, 0.8); 
-            color: color: #003C71;
+            color: #003C71;
             padding: 10px 20px;
             display: inline-block; 
             border-radius: 10px; 
@@ -42,6 +46,7 @@ def generate_index_html(menu_data):
         .menu-card {{ background: white; padding: 15px; margin: 10px 0; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); text-align: left; }}
         .meal-title {{ font-size: 20px; font-weight: bold; }}
         .meal-components {{ font-size: 16px; color: #666; }}
+        .meal-frequency {{ font-size: 14px; color: #888; font-style: italic; }}
         .button {{ padding: 12px 20px; background: #007bff; color: white; border-radius: 5px; text-decoration: none; }}
     </style>
 </head>
@@ -58,12 +63,17 @@ def generate_index_html(menu_data):
             html += '<p class="closed-message">❌ No menu available for today!</p>'
         else:
             for meal in today_menu:
+                meal_name = meal["Meal"]
+                freq = meal_frequencies.get(meal_name, 1)
+                frequency_text = f"📊 Seen {freq} time{'s' if freq > 1 else ''} since 2025.03.20"
+
                 components = "<br>".join(
                     f"✅ {meal[f'Component {i}']}" for i in range(1, 6) if meal.get(f'Component {i}')
                 )
                 html += f"""
                 <div class="menu-card">
-                    <p class="meal-title">🍽️ {meal['Meal']}</p>
+                    <p class="meal-title">🍽️ {meal_name}</p>
+                    <p class="meal-frequency">{frequency_text}</p>
                     <p class="meal-components">{components}</p>
                 </div>
                 """
@@ -74,7 +84,7 @@ def generate_index_html(menu_data):
 </body>
 </html>
     """
-    
+
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
     print("✅ index.html updated.")
