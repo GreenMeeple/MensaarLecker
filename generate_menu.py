@@ -51,7 +51,8 @@ def generate_index_html(menu_data):
     </style>
 </head>
 <body>
-    <h1>Mensaar Menu for {today}</h1>
+    <h1>Mensaar Menu for {today}</h1></br>
+    <a href="menu.html" class="button">📜 View Full Menu</a>
     <div class="container">
     """
 
@@ -80,7 +81,6 @@ def generate_index_html(menu_data):
 
     html += """
     </div>
-    <a href="menu.html" class="button">📜 View Full Menu</a>
 </body>
 </html>
     """
