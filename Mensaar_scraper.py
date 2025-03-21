@@ -8,7 +8,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import re
-import datetime
+import time
+import json
 
 # Google Sheets Setup
 SHEET_NAME = "MensaarLecker"  # Change this to your sheet name
@@ -36,22 +37,22 @@ def format_date(german_date):
 def scrape_mensaar():
     url = "https://mensaar.de/#/menu/sb"
     driver = None
-    
+
     try:
-        # Set up Chrome options
         chrome_options = Options()
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
-        
-        # Set up the Chrome driver
+        chrome_options.add_argument("--window-size=1920,1080")
+
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
-        
+
         driver.get(url)
         print("✅ Page loaded. Waiting for content...")
 
-        # Wait until the list of counters is fully loaded
+        time.sleep(5)  # wait for JS to load fully
+
         try:
             WebDriverWait(driver, 20).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "counter"))
@@ -60,45 +61,48 @@ def scrape_mensaar():
         except:
             print("❌ Menu failed to load (no .counter found)")
 
+        # Try reading the date
         try:
             date_element = driver.find_element(By.CSS_SELECTOR, ".cursor-pointer.active.list-group-item")
             menu_date_raw = date_element.text.strip()
-            menu_date = format_date(menu_date_raw)
-            print(f"📅 Raw Date: {menu_date_raw} → Parsed: {menu_date}")
+            print(f"📅 Raw Date Element: {menu_date_raw}")
+            menu_date = format_date(menu_date_raw) if menu_date_raw else "0000-00-00"
         except Exception as e:
             print(f"❌ Failed to extract date: {e}")
             menu_date = "0000-00-00"
 
-        # Extract meals by counter titles
+        # Sample snippet for debugging page load
+        print("🧪 Page snippet:")
+        print(driver.page_source[:1000])
+
         meal_data = []
 
         counters = driver.find_elements(By.CLASS_NAME, "counter")
-
         for counter in counters:
             counter_title = counter.find_element(By.CLASS_NAME, "counter-title").text.strip()
-            
+
             if counter_title in ["Menü 1", "Menü 2", "Mensacafé"]:
                 meal_elements = counter.find_elements(By.CLASS_NAME, "meal")
-                
+
                 for meal in meal_elements:
                     meal_title = meal.find_element(By.CLASS_NAME, "meal-title").text.strip()
 
-                    # Gather components separately
                     component_elements = meal.find_elements(By.CLASS_NAME, "component-name")
                     components = [c.text.strip() for c in component_elements]
 
-                    # Append structured data
                     meal_data.append([menu_date, counter_title, meal_title, components])
 
-        # Save to Google Sheets
-        save_to_google_sheets(meal_data)
+        if meal_data:
+            save_to_google_sheets(meal_data)
+        else:
+            print("⚠️ No meals found. Page may have loaded incorrectly.")
 
     except Exception as e:
         print(f"❌ Error scraping menu: {e}")
-    
     finally:
         if driver:
             driver.quit()
+
 
 def save_to_google_sheets(meal_data):
     """Save meal data to Google Sheets with separate component columns."""
