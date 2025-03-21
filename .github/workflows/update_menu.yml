@@ -2,7 +2,7 @@ name: Update Mensaar Menu
 
 on:
   schedule:
-    - cron: "0 10 * * 1-5"  # Runs at 10 AM UTC on Monday to Friday (weekdays)
+    - cron: "0 10 * * 1-5"  # Runs at 10 AM UTC on weekdays (Monday-Friday)
   workflow_dispatch:
 
 jobs:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: 📥 Checkout repo
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🛠 Set up Python
         uses: actions/setup-python@v4
@@ -25,16 +27,13 @@ jobs:
       - name: 🚀 Run Mensaar Scraper (Update Google Sheets)
         run: python Mensaar_scraper.py
 
-      - name: ⏳ Wait for Google Sheets update (Optional)
-        run: sleep 30  # Waits 30 seconds for data to update
+      - name: ⏳ Wait for Google Sheets update
+        run: sleep 30  # Give time for Google Sheets to update
 
       - name: 🔄 Run Generate Menu (Fetch & Create HTML)
         run: python generate_menu.py
 
       - name: 📤 Commit & Push Updates
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add index.html menu.html
-          git commit -m "🔄 Auto-update Mensaar Menu"
-          git push
+          git config --global user.name "github-actions[bot]"
+      
