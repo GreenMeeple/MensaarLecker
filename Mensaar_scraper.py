@@ -117,12 +117,33 @@ def scrape_mensaar():
         print("✅ Scraper completed.")
 
 def save_to_google_sheets(meal_data):
+    import os
+
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+
     try:
+        # Read and validate credentials.json before using it
+        if not os.path.exists("credentials.json"):
+            print("❌ credentials.json not found!")
+            return
+        with open("credentials.json", "r", encoding="utf-8") as f:
+            raw_creds = f.read()
+            print("🧪 First 100 chars of credentials.json:", raw_creds[:100])
+            creds_data = json.loads(raw_creds)
+
+        # Save to a temp file just in case gspread needs it as a file
+        temp_path = "parsed_credentials.json"
+        with open(temp_path, "w", encoding="utf-8") as f:
+            json.dump(creds_data, f)
+
+        creds = ServiceAccountCredentials.from_json_keyfile_name(temp_path, scope)
         client = gspread.authorize(creds)
         sheet = client.open(SHEET_NAME).sheet1
         print("✅ Google Sheets Auth OK")
+
+    except json.JSONDecodeError as e:
+        print("❌ JSON parsing error in credentials.json:", e)
+        return
     except Exception as e:
         print(f"❌ Google Sheets Auth Failed: {e}")
         return
@@ -138,6 +159,7 @@ def save_to_google_sheets(meal_data):
         sheet.append_row(row[:3] + components)
 
     print("✅ Data saved to Google Sheets.")
+
 
 if __name__ == "__main__":
     scrape_mensaar()
