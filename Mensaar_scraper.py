@@ -15,13 +15,14 @@ import json
 # Override json.loads to help debug malformed JSON issues
 original_json_loads = json.loads
 
-def safe_json_loads(value):
+def safe_json_loads(value, *args, **kwargs):
     try:
-        return original_json_loads(value)
+        return original_json_loads(value, *args, **kwargs)
     except json.JSONDecodeError as e:
         print("❌ JSONDecodeError:", e)
         print("🧪 Offending string:", value[:200])
         return {}
+
 json.loads = safe_json_loads
 
 # Google Sheets Setup
