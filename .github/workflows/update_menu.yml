@@ -2,7 +2,7 @@ name: Update Mensaar Menu
 
 on:
   schedule:
-    - cron: "0 10 * * 1-5"  # Runs at 10 AM UTC on weekdays (Monday-Friday)
+    - cron: "0 10 * * 1-5"  # Weekdays at 10 AM UTC
   workflow_dispatch:
 
 jobs:
@@ -24,16 +24,28 @@ jobs:
         run: |
           pip install requests selenium webdriver-manager gspread oauth2client
 
-      - name: 🚀 Run Mensaar Scraper (Update Google Sheets)
+      - name: 🗝️ Write credentials.json for Google Sheets
+        run: echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" > credentials.json
+
+      - name: 🚀 Run Mensaar Scraper (update Google Sheets)
         run: python Mensaar_scraper.py
 
       - name: ⏳ Wait for Google Sheets update
-        run: sleep 30  # Give time for Google Sheets to update
+        run: sleep 30
 
-      - name: 🔄 Run Generate Menu (Fetch & Create HTML)
+      - name: 🖼️ Run HTML Generator
         run: python generate_menu.py
 
-      - name: 📤 Commit & Push Updates
+      - name: 🧪 List current files
+        run: ls -la
+
+      - name: 📤 Commit & Push HTML files
         run: |
           git config --global user.name "github-actions[bot]"
-      
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html menu.html || true
+          git status
+          git diff --cached --quiet || git commit -m "🔄 Auto-update Mensaar Menu"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
