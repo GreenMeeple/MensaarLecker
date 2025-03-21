@@ -28,7 +28,7 @@ A fully automated scraper and menu site for the Saarbrücken Mensa, powered by P
 
 ## 🌐 Live Demo
 
-> 🖥 [Visit the Menu Website](https://your-github-username.github.io/MensaarLecker)
+> 🖥 [Visit the Menu Website](https://greenmeeple.github.io/MensaarLecker/index.html)
 
 _Replace with your GitHub Pages link after setup._
 
