@@ -10,6 +10,20 @@ from oauth2client.service_account import ServiceAccountCredentials
 import re
 import time
 import json
+from datetime import date
+
+# Google Sheets Setup
+SHEET_NAME = "MensaarLecker"  # Change to match your actual sheet name
+
+# German month mapping
+GERMAN_MONTHS = {
+    "Januar": "01", "Februar": "02", "März": "03", "April": "04",
+    "Mai": "05", "Juni": "06", "Juli": "07", "August": "08",
+    "September": "09", "Oktober": "10", "November": "11", "Dezember": "12"
+}
+
+UDS_URL = "https://mensaar.de/#/menu/sb"
+HTW_URL = "https://mensaar.de/#/menu/htwcrb"
 
 # Override json.loads to help debug malformed JSON issues
 original_json_loads = json.loads
@@ -24,16 +38,6 @@ def safe_json_loads(value, *args, **kwargs):
 
 json.loads = safe_json_loads
 
-# Google Sheets Setup
-SHEET_NAME = "MensaarLecker"  # Change to match your actual sheet name
-
-# German month mapping
-GERMAN_MONTHS = {
-    "Januar": "01", "Februar": "02", "März": "03", "April": "04",
-    "Mai": "05", "Juni": "06", "Juli": "07", "August": "08",
-    "September": "09", "Oktober": "10", "November": "11", "Dezember": "12"
-}
-
 def format_date(german_date):
     match = re.search(r"(\d{1,2})\. (\w+) (\d{4})", german_date)
     if match:
@@ -42,10 +46,8 @@ def format_date(german_date):
         return f"{year}-{month_number}-{int(day):02d}"
     return "0000-00-00"
 
-def scrape_mensaar():
-    url = "https://mensaar.de/#/menu/sb"
+def scrape_mensaar(url, sheet_name):
     driver = None
-
     try:
         # Chrome options
         chrome_options = Options()
@@ -75,18 +77,18 @@ def scrape_mensaar():
         try:
             date_element = driver.find_element(By.CSS_SELECTOR, ".cursor-pointer.active.list-group-item")
             menu_date_raw = date_element.text.strip()
-            print(f"📅 Raw Date Element: {menu_date_raw}")
             menu_date = format_date(menu_date_raw) if menu_date_raw else "0000-00-00"
+            # Ensure the scraped menu_date is for today
         except Exception as e:
             print(f"❌ Failed to extract date: {e}")
             menu_date = "0000-00-00"
 
-        # Optional: log page HTML snippet
-        print("🧪 Page snippet:")
-        print(driver.page_source[:1000])
+        if menu_date != date.today().isoformat():
+            print(f"⚠️ Skipping menu for {menu_date} — not today's date.")
+            return  # Stop the function early
+        else: print(f"📅 Today is {menu_date}")
 
         meal_data = []
-
         counters = driver.find_elements(By.CLASS_NAME, "counter")
 
         for counter in counters:
@@ -103,10 +105,10 @@ def scrape_mensaar():
 
                     meal_data.append([menu_date, counter_title, meal_title, components])
 
-        if meal_data:
-            save_to_google_sheets(meal_data)
-        else:
-            print("⚠️ No meals found.")
+        # if meal_data:
+        #     save_to_google_sheets(meal_data, sheet_name)
+        # else:
+        #     print("⚠️ No meals found.")
 
     except Exception as e:
         print(f"❌ Error scraping menu: {e}")
@@ -115,7 +117,7 @@ def scrape_mensaar():
             driver.quit()
         print("✅ Scraper completed.")
 
-def save_to_google_sheets(meal_data):
+def save_to_google_sheets(meal_data, sheet_name):
     import os
 
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -137,7 +139,7 @@ def save_to_google_sheets(meal_data):
 
         creds = ServiceAccountCredentials.from_json_keyfile_name(temp_path, scope)
         client = gspread.authorize(creds)
-        sheet = client.open(SHEET_NAME).sheet1
+        sheet = client.open(SHEET_NAME).worksheet(sheet_name)
         print("✅ Google Sheets Auth OK")
 
     except json.JSONDecodeError as e:
@@ -161,4 +163,5 @@ def save_to_google_sheets(meal_data):
 
 
 if __name__ == "__main__":
-    scrape_mensaar()
+    scrape_mensaar(UDS_URL, sheet_name="Menu_uds")
+    scrape_mensaar(HTW_URL, sheet_name="Menu_htw")
