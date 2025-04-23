@@ -93,8 +93,12 @@ def scrape_mensaar(url, sheet_name):
 
         for counter in counters:
             counter_title = counter.find_element(By.CLASS_NAME, "counter-title").text.strip()
-
-            if counter_title in ["Menü 1", "Menü 2", "Mensacafé"]:
+            if url == UDS_URL: 
+                title_list = ["Menü 1", "Menü 2", "Mensacafé"]
+            else:
+                title_list = ["Menü 1", "Menü 2", "Wahlessen"]
+                
+            if counter_title in title_list:
                 meal_elements = counter.find_elements(By.CLASS_NAME, "meal")
 
                 for meal in meal_elements:
@@ -105,10 +109,10 @@ def scrape_mensaar(url, sheet_name):
 
                     meal_data.append([menu_date, counter_title, meal_title, components])
 
-        # if meal_data:
-        #     save_to_google_sheets(meal_data, sheet_name)
-        # else:
-        #     print("⚠️ No meals found.")
+        if meal_data:
+            save_to_google_sheets(meal_data, sheet_name)
+        else:
+            print("⚠️ No meals found.")
 
     except Exception as e:
         print(f"❌ Error scraping menu: {e}")
