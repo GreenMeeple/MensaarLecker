@@ -1,4 +1,4 @@
- name: Update Mensaar Menu
+name: Update Mensaar Menu
 
 on:
   schedule:
