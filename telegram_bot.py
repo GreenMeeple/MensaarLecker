@@ -23,22 +23,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     
     print(f"📥 New message from {chat_type}: {user_input}")
-    match user_input:
-        case "📜 All Menu":
+    match user_input.lower():
+        case "📜 all menu":
             uds = scrape_mensaar(UDS_URL)
             htw = scrape_mensaar(HTW_URL)
             msg = format_menu(uds, "UdS") + "\n\n" + format_menu(htw, "HTW")
-        case "🍽️ UdS Menu":
+        case "🍽️ uds menu":
             uds = scrape_mensaar(UDS_URL)
             msg = format_menu(uds, "UdS")
-        case "🍽️ HTW Menu":
+        case "🍽️ htw menu":
             htw = scrape_mensaar(HTW_URL)
             msg = format_menu(htw, "HTW")
-        case "❓ Help":
+        case "❓ help":
             msg = HELP
-        case "ℹ️ About":
+        case "ℹ️ about":
             msg = ABOUT
-        case "🦉 Hoot":
+        case "🦉 hoot" | "hoot":
             msg = random.choice(QUOTES)
         case _:
             if is_menu_query(user_input):
