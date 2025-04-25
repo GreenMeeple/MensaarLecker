@@ -46,8 +46,9 @@ def format_date(german_date):
         return f"{year}-{month_number}-{int(day):02d}"
     return "0000-00-00"
 
-def scrape_mensaar(url, sheet_name):
+def scrape_mensaar(url):
     driver = None
+    meal_data = []
     try:
         # Chrome options
         chrome_options = Options()
@@ -55,13 +56,13 @@ def scrape_mensaar(url, sheet_name):
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--window-size=1920,1080")
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--disable-software-rasterizer')
 
-        service = Service(ChromeDriverManager().install())
+        service = Service(ChromeDriverManager(driver_version="135.0.7049.115").install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
 
         driver.get(url)
-        print("✅ Page loaded. Waiting for content...")
-
         time.sleep(5)  # give JS time to load
 
         # Wait for menu to load
@@ -69,9 +70,9 @@ def scrape_mensaar(url, sheet_name):
             WebDriverWait(driver, 20).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "counter"))
             )
-            print("✅ Menu loaded!")
+            print(f"✅ Menu loaded from {url}!")
         except:
-            print("❌ Menu failed to load (no .counter found)")
+            print(f"❌ failed to load menu from {url}")
 
         # Try to get the date
         try:
@@ -86,9 +87,8 @@ def scrape_mensaar(url, sheet_name):
         if menu_date != date.today().isoformat():
             print(f"⚠️ Skipping menu for {menu_date} — not today's date.")
             return  # Stop the function early
-        else: print(f"📅 Today is {menu_date}")
+        else: print(f"📅 Menu on {menu_date}")
 
-        meal_data = []
         counters = driver.find_elements(By.CLASS_NAME, "counter")
 
         for counter in counters:
@@ -109,17 +109,13 @@ def scrape_mensaar(url, sheet_name):
 
                     meal_data.append([menu_date, counter_title, meal_title, components])
 
-        if meal_data:
-            save_to_google_sheets(meal_data, sheet_name)
-        else:
-            print("⚠️ No meals found.")
-
     except Exception as e:
         print(f"❌ Error scraping menu: {e}")
     finally:
         if driver:
             driver.quit()
         print("✅ Scraper completed.")
+        return meal_data
 
 def save_to_google_sheets(meal_data, sheet_name):
     import os
@@ -167,5 +163,13 @@ def save_to_google_sheets(meal_data, sheet_name):
 
 
 if __name__ == "__main__":
-    scrape_mensaar(UDS_URL, sheet_name="Menu_uds")
-    scrape_mensaar(HTW_URL, sheet_name="Menu_htw")
+    meal_uds = scrape_mensaar(UDS_URL)    
+    if meal_uds:
+        save_to_google_sheets(meal_uds, sheet_name="Menu_uds")
+    else:
+        print("⚠️ No meals found.")
+    meal_htw = scrape_mensaar(HTW_URL)
+    if meal_htw:
+        save_to_google_sheets(meal_htw, sheet_name="Menu_htw")
+    else:
+        print("⚠️ No meals found.")
