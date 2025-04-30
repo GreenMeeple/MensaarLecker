@@ -1,6 +1,8 @@
+import re
 from rapidfuzz import fuzz
 from deep_translator import GoogleTranslator
 from datetime import datetime, date
+from Mensaar_scraper import scrape_mensaar, UDS_URL, HTW_URL
 
 ABOUT = "🦉 I'm the wisest OWL — your friendly helper for Saarbrücken's cafeteria menus❗ I used my clumsy wings to get what i need from 📜 https://mensaar.de/#/menu/htwcrb and 📜 https://mensaar.de/#/menu/sb. That's modern technology my youngling 😉"
 
@@ -27,36 +29,49 @@ MENU_KEYWORDS = [
     "food", "mittagessen", "hungry", "htw", "forage", "plan", "cook", "deal"
 ]
 
-def format_menu(data, title):
+_menu_cache = {"date": None, "UdS": None, "HTW": None}
+
+def get_menu(mensa):
+    today = date.today().isoformat()
+
+    if _menu_cache["date"] != today or _menu_cache[mensa] is None:
+        print(f"🔄 Refreshing menu cache for {mensa}")
+        _menu_cache["date"] = today
+        _menu_cache[mensa] = scrape_mensaar(UDS_URL) if mensa == "UdS" else scrape_mensaar(HTW_URL)
+
+    data = _menu_cache[mensa]
     now = datetime.now()
     now_str = now.strftime("%H:%M")
-    today = date.today().isoformat()
     data_today = [m for m in data if m[0].startswith(today)]
 
-    if not data_today:
-        return f"❌ No {title} menu available for today. ({now_str})"
-    if title == "UdS":
-        opening = now.replace(hour=11, minute=30, second=0, microsecond=0)
-        closing = now.replace(hour=14, minute=30, second=0, microsecond=0)
-    else:
-        opening = now.replace(hour=11, minute=0, second=0, microsecond=0)
-        closing = now.replace(hour=14, minute=15, second=0, microsecond=0)
+    # Define opening and closing based on cafeteria
+    opening, closing = (
+        (now.replace(hour=11, minute=30), now.replace(hour=14, minute=30))
+        if mensa == "UdS" else
+        (now.replace(hour=11, minute=0), now.replace(hour=14, minute=15))
+    )
 
+    if now > closing:
+        return "⛔ Schade❗ Already closed."
+    # Early exit if no menu yet
+    if not data_today:
+        return f"❌ Current time {now_str}. {'Menu not available yet.' if now < opening else f'No {mensa} menu for today.'}"
+
+    # Determine status
     if now < opening:
         delta = opening - now
-        status = f"🕚 Mensa opens in {delta.seconds // 3600}h {(delta.seconds % 3600) // 60}m"
-    elif now < closing:
-        delta = closing - now
-        status = f"🕑 Mensa closes in {delta.seconds // 3600}h {(delta.seconds % 3600) // 60}m"
+        status = f"🕚 Opens in {delta.seconds // 3600}h {(delta.seconds % 3600) // 60}m"
     else:
-        status = "⛔ Schade❗ Mensa is closed already."
+        delta = closing - now
+        status = f"🕑 Closes in {delta.seconds // 3600}h {(delta.seconds % 3600) // 60}m"
 
-    lines = [f"📍 {title} Menu:\n🕰️ {now_str} | {status}\n"]
-    for m in data_today:
-        _, counter, meal_title, components = m
-        translated_name = translate_text(meal_title)
-        translated_components = ", ".join(translate_text(c) for c in components if c)
-        lines.append(f"• {counter}: {translated_name}\n  - {translated_components}")
+    # Build output
+    lines = [
+        f"📍 {mensa} Menu:\n🕰️ {now_str} | {status}\n"
+    ] + [
+        f"• {counter}: {translate_text(meal_mensa)}\n  - {', '.join(translate_text(c) for c in components if c)}"
+        for _, counter, meal_mensa, components in data_today
+    ]
     return "\n".join(lines)
 
 _translation_cache = {}
@@ -72,5 +87,6 @@ def translate_text(text, target='en'):
         return text
 
 def is_menu_query(text: str, threshold=80):
+    text = re.sub(r'@\w+', '', text)
     text = text.lower()
     return any(fuzz.partial_ratio(text, keyword) >= threshold for keyword in MENU_KEYWORDS)
