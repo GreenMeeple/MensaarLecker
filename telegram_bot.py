@@ -65,12 +65,25 @@ async def panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(
-        "🦉 Hoot Hoot❗ Guess we have another mortal here❗\nTell me what you want... wait, why don't you just... click a button below❓",
+        "🦉 Hoot Hoot❗\nI'm glad that you chose this❗ Tell me what you want...\nWait, why don't you just... click a button below❓",
         reply_markup=reply_markup
     )
 
+async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    msg = get_menu("UdS") + "\n\n" + get_menu("HTW")
+    await update.message.reply_text(msg)
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+"""🦉 Hoot Hoot❗ Guess we have another mortal here❗
+If you have NO soul        --> /owl
+If you have NO food & soul --> /menu
+If you HAVE a soul --> @Mensaar_Bot And start talking""")
+
 def main():
     app = ApplicationBuilder().token(os.getenv("TOKEN")).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("menu", menu))
     app.add_handler(CommandHandler("owl", panel))
     app.add_handler(CallbackQueryHandler(handle_callback))  # Now handling inline button clicks
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
