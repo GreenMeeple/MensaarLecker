@@ -4,6 +4,12 @@ As an [UdS](https://www.uni-saarland.de/start.html) Student,
 Are you tired of seeing french fries🍟 3 times a week, or wondering when I can have the best pizza 🍕 in the Mensacafe?
 MensaarLecker aims to collect all the data from Menu 1, 2, and Mensacafe to trace your favourite, or Mensa Ladies', favourite menu!
 
+## Updates
+
+**05.08 -- Telegram Bot [@Mensaar_Bot](https://t.me/Mensaar_Bot) are published.**
+
+**04.21 -- [https://mensaar.de/#/menu/htwcrb](HTW) menus are now added to the statistics.**
+
 ---
 
 ## 🥗 Description
