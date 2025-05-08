@@ -8,7 +8,9 @@ MensaarLecker aims to collect all the data from Menu 1, 2, and Mensacafe to trac
 
 **05.08 -- Telegram Bot [@Mensaar_Bot](https://t.me/Mensaar_Bot) are published.**
 
-**04.21 -- [https://mensaar.de/#/menu/htwcrb](HTW) menus are now added to the statistics.**
+![](./src/bot.png)
+
+**04.21 -- [HTW](https://mensaar.de/#/menu/htwcrb) menus are now added to the statistics.**
 
 ---
 
